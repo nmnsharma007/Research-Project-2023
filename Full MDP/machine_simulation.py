@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 
 A = 2   # action 0(keep) and action 1(replace)
 S = 2   # state 0(operational) and state 1(faulty)
-N = 10000
+N = 4
 
 p = 0.1 # probability that machine will go to faulty state
 c = 4
-R = 10
+R = 3
 
 C = np.array([[[0],[c]],[[R],[R]]]) # cost matrix for action 0 and action 1 respectively
 P = [[[1-p, p], [0, 1]], [[1, 0], [1, 0]]] # transition probability matrix for each action
@@ -28,6 +28,7 @@ epochs = 50
 total_cost = [] # total cost for each epoch
 avg_cost = 0    #acg cost of all the epochs
 
+print(machine.lookup)
 
 for k in range(epochs):
     cost = 0
@@ -51,14 +52,14 @@ for k in range(epochs):
         current_state = next_state
 
     total_cost.append(cost)
-    avg_cost = cost/epochs
+    avg_cost += cost/epochs
 
 print('Avg Cost: ', avg_cost)
 
 
 # Plotting (expected total cost with starting state as 0) vs epochs
 y1 = total_cost
-y2 = np.full(epochs, machine.Jk[0], dtype=int)
+y2 = np.full(epochs, machine.Jk[initial_state], dtype=int)
 x = np.linspace(0,epochs-1,epochs,dtype=int)
 
 plt.plot(x, y1, label='simulated')
@@ -69,14 +70,3 @@ plt.ylabel('cost')
 
 plt.legend()
 plt.show()
-
-
-
-
-
-
-
-    
-
-
-
