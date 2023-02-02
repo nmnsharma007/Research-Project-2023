@@ -30,21 +30,21 @@ class Machine():
                 curr_state = np.array([[j*0.1],[1-(j*0.1)]])
 
                 # for action 0
-                J_nextK0 = np.matmul(self.C[0].T, curr_state).item() + self.Jk[10]
+                J_nextK0 = np.matmul(self.C[0].T, curr_state).item() + self.Jk[0][0]
 
                 # for action 1
                 y0 = round(T(curr_state, 0, self.B, self.P, self.S)[0][0], 1)   # observation 0
                 sigma0 = sigma(curr_state, 0, self.B, self.P, self.S)
-                y1 = round(T(curr_state, 1, self.B, self.P, self.S)[1][0], 1)   # observation 1
+                y1 = round(T(curr_state, 1, self.B, self.P, self.S)[0][0], 1)   # observation 1
                 sigma1 = sigma(curr_state, 1, self.B, self.P, self.S)
                 J_nextK1 = np.matmul(self.C[1].T, curr_state).item() + self.Jk[int(y0*10)]*sigma0 + self.Jk[int(y1*10)]*sigma1
 
                 # selecting the action with minimum cost and accordingly changing the lookup table
                 if J_nextK0 < J_nextK1:
-                    self.Jk[j] = J_nextK0
+                    self.Jk[j][0] = J_nextK0
                     self.lookup[j][i] = 0
                 else:
-                    self.Jk[j] = J_nextK1
+                    self.Jk[j][0] = J_nextK1
                     self.lookup[j][i] = 1
 
 '''
