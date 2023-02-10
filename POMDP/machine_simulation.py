@@ -59,9 +59,9 @@ for e in range(epochs):
             
             product_quality = 0
             if real_cur_state == 0: # if machine was in bad state
-                product_quality = np.random.binomial(1,1-q)
+                product_quality = np.random.binomial(1,q)
             else:
-                product_quality = np.random.binomial(1,p)
+                product_quality = np.random.binomial(1,1-p)
 
             pi = np.array([[estimated_cur_state],[1-estimated_cur_state]])
             estimated_cur_state = round(T(pi,product_quality,B,P,S)[0][0],1)
