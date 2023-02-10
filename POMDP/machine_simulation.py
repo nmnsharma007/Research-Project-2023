@@ -13,9 +13,9 @@ def T(pi,y,B,P,S,u=1):
     return numerator / denominator
 
 # print(pi.shape)
-p = 0.3
-q = 0.6
-theta = 0.4
+p = 0.3     # probability that good state produces good quality product
+q = 0.6     # probability that bad state produces bad quality product
+theta = 0.4 # probabilirt from good to bad
 B = np.array([[[1-q,0],[0,p]],[[q,0],[0,1-p]]],dtype=np.float32)
 P = np.array([[[0,1],[0,1]],[[1,0],[theta,1-theta]]],dtype=np.float32)
 S = 2
@@ -65,6 +65,7 @@ for e in range(epochs):
 
             pi = np.array([[estimated_cur_state],[1-estimated_cur_state]])
             estimated_cur_state = round(T(pi,product_quality,B,P,S)[0][0],1)
+            real_cur_state = real_next_state
         # print(T(pi,product_quality,B,P,S).shape)
 
 print(f"Simulated cost: {cost / epochs}")
