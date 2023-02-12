@@ -71,6 +71,6 @@ for e in range(epochs):
 print(f"Simulated cost: {cost / epochs}")
 print(f"Actual Value function: {machine.Jk[1]}")
 
-# state_space = np.linspace(0,1,11)
-# plt.plot(state_space,machine.Jk[:,])
-# plt.show()
+state_space = np.linspace(0,1,11)
+plt.plot(state_space,machine.Jk[:,])
+plt.show()
