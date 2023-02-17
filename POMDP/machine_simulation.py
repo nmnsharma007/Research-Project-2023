@@ -15,7 +15,7 @@ def T(pi,y,B,P,S,u=1):
 # print(pi.shape)
 p = 0.3     # probability that good state produces good quality product
 q = 0.6     # probability that bad state produces bad quality product
-theta = 0.4 # probabilirt from good to bad
+theta = 0.4 # probability from good to bad
 B = np.array([[[1-q,0],[0,p]],[[q,0],[0,1-p]]],dtype=np.float32)
 P = np.array([[[0,1],[0,1]],[[1,0],[theta,1-theta]]],dtype=np.float32)
 S = 2
@@ -49,13 +49,12 @@ for e in range(epochs):
             real_cur_state = 1
             estimated_cur_state = 0
         else: # keep the machine
-            real_next_state = real_cur_state
             if real_cur_state == 0:
                 pass # machine in bad state remains in bad state
             else:
                 bernoulli = np.random.binomial(1,theta)
                 if bernoulli == 1:
-                    real_next_state = 0 # if success, state changes to bad state
+                    real_cur_state = 0 # if success, state changes to bad state
             
             product_quality = 0
             if real_cur_state == 0: # if machine was in bad state
@@ -65,7 +64,6 @@ for e in range(epochs):
 
             pi = np.array([[estimated_cur_state],[1-estimated_cur_state]])
             estimated_cur_state = round(T(pi,product_quality,B,P,S)[0][0],1)
-            real_cur_state = real_next_state
         # print(T(pi,product_quality,B,P,S).shape)
 
 print(f"Simulated cost: {cost / epochs}")
