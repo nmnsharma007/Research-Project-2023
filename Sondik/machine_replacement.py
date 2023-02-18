@@ -49,12 +49,12 @@ class Machine():
             # break
         # plot the lines
         print(T.shape)
-        plt.xlim(0,1)
-        plt.ylim(0,100)
-        for i in range(T.shape[0]):
-            plt.axline((0,T[i][1][0]),slope=T[i][0][0])
-        # ax.legend()
-        plt.show()
+        # plt.xlim(0,1)
+        # plt.ylim(0,100)
+        # for i in range(T.shape[0]):
+        #     plt.axline((0,T[i][1][0]),slope=T[i][0][0])
+        # # ax.legend()
+        # plt.show()
         # for i in range(T.shape[0]):
         #     print(f"Y = {T[i][0][0]} * X + {T[i][1][0]}")
 
