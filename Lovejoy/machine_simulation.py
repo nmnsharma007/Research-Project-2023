@@ -41,7 +41,7 @@ theta = 0.4 # probability from good to bad
 B = np.array([[[1-q,0],[0,p]],[[q,0],[0,1-p]]],dtype=np.float32)
 P = np.array([[[0,1],[0,1]],[[1,0],[theta,1-theta]]],dtype=np.float32)
 S = 2
-N = 2
+N = 20
 U = 2   # number of actions
 c = 3
 R = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
@@ -90,13 +90,12 @@ for act in range(1):
                 real_cur_state = 1
                 estimated_cur_state = np.array([[0.0],[1.0]])
             else:                       # keep the machine
-                real_next_state = real_cur_state
                 if real_cur_state == 0:
                     pass # machine in bad state remains in bad state
                 else:
                     bernoulli = np.random.binomial(1,theta)
                     if bernoulli == 1:
-                        real_next_state = 0 # if success, state changes to bad state
+                        real_cur_state = 0 # if success, state changes to bad state
                 
                 product_quality = 0
                 if real_cur_state == 0: # if machine was in bad state
@@ -105,7 +104,6 @@ for act in range(1):
                     product_quality = np.random.binomial(1,1-p)
 
                 estimated_cur_state = T(estimated_cur_state,product_quality,B,P,S)
-                real_cur_state = real_next_state
 
     print(f"Simulated cost: {cost / epochs}")
     print(f"Expected cost: {get_value(machine.lookup[0], np.array([[0.5],[0.5]]), machine.U)}")
