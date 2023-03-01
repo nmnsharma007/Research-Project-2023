@@ -28,7 +28,7 @@ class Machine():
             T_pruned_indices.add(np.argmin(temp))
         # print(f"T_pruned: {T_pruned}")
         T_pruned = np.array([T[x] for x in T_pruned_indices])
-        print(T_pruned)
+        # print(T_pruned)
         return T_pruned
 
     def train(self):
