@@ -27,19 +27,19 @@ class Machine():
             # 11 belief states are possible : 0.0, 0.1, 0.2, ... 0.9, 1.0
             for j in range(11):
                 # for belief_state = j*0.1
-                curr_state = np.array([[j*0.1],[1-(j*0.1)]])
+                curr_state = np.array([[1-j*0.1],[j*0.1]])
 
                 # for action 0
-                y00 = round(T(curr_state, 0, self.B, self.P, self.S)[0][0], 1)   # observation 0
+                y00 = round(T(curr_state, 0, self.B, self.P, self.S)[1][0], 1)   # observation 0
                 sigma0 = sigma(curr_state, 0, self.B, self.P, self.S)
-                y10 = round(T(curr_state, 1, self.B, self.P, self.S)[0][0], 1)   # observation 1
+                y10 = round(T(curr_state, 1, self.B, self.P, self.S)[1][0], 1)   # observation 1
                 sigma1 = sigma(curr_state, 1, self.B, self.P, self.S)
                 V_next_0 = np.matmul(self.C[0].T, curr_state).item() + self.Vn[int(y00*10)]*sigma0 + self.Vn[int(y10*10)]*sigma1
                 
                 # for action 1
-                y10 = round(T(curr_state, 0, self.B, self.P, self.S)[0][0], 1)   # observation 0
+                y10 = round(T(curr_state, 0, self.B, self.P, self.S)[1][0], 1)   # observation 0
                 sigma0 = sigma(curr_state, 0, self.B, self.P, self.S)
-                y11 = round(T(curr_state, 1, self.B, self.P, self.S)[0][0], 1)   # observation 1
+                y11 = round(T(curr_state, 1, self.B, self.P, self.S)[1][0], 1)   # observation 1
                 sigma1 = sigma(curr_state, 1, self.B, self.P, self.S)
                 V_next_1 = np.matmul(self.C[1].T, curr_state).item() + self.Vn[int(y10*10)]*sigma0 + self.Vn[int(y11*10)]*sigma1
 

@@ -32,6 +32,11 @@ cost = 0.0
 machine.train()
 print(machine.Vn)
 print(machine.policy)
+x = np.linspace(0.0,1.0,11)
+y = machine.policy[:,0]
+y = y.astype(np.int32)
+plt.plot(x,y)
+plt.show()
 
 # print(machine.lookup)
 # for e in range(epochs):
