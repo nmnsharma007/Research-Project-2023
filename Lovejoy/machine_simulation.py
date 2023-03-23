@@ -41,13 +41,13 @@ theta = 0.4 # probability from good to bad
 B = np.array([[[1-q,0],[0,p]],[[q,0],[0,1-p]]],dtype=np.float32)
 P = np.array([[[0,1],[0,1]],[[1,0],[theta,1-theta]]],dtype=np.float32)
 S = 2
-N = 20
+N = 4
 U = 2   # number of actions
 c = 3
 R = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 replace_cost = 6
 Y = 2 
-epochs = 1000
+epochs = 10
 C = np.array([[[replace_cost],[replace_cost]],[[c],[0]]]) # cost matrix for action 0 and action 1 respectively
 
 # 0 -> bad state, 1 -> good state
@@ -65,18 +65,21 @@ plt.xlim(0,1)
 colors=['red', 'blue']
 for (i, a) in enumerate(machine.lookup[0]):
     for j in range(len(a)):
-        plt.axline((0,a[j][1][0]),slope=a[j][0][0] - a[j][1][0], label=str(i), color=colors[i])
+        plt.axline((0,a[j][1][0]),slope=a[j][0][0] - a[j][1][0], label='action '+str(i), color=colors[i])
 
-plt.legend()
+handles, labels = plt.gca().get_legend_handles_labels()
+temp = {k:v for k,v in zip(labels, handles)}
+
+plt.legend(temp.values(), temp.keys(), loc='best')
+# plt.legend()
 plt.show()
-
 
 for act in range(1):
     cost = 0.0
     for e in range(epochs):
         np.random.seed(e)
-        real_cur_state = 1
-        estimated_cur_state = np.array([[0.5],[0.5]])
+        real_cur_state = 0
+        estimated_cur_state = np.array([[1.0],[0.0]])
 
         for i in range(machine.N):
             # choose action
@@ -106,7 +109,7 @@ for act in range(1):
                 estimated_cur_state = T(estimated_cur_state,product_quality,B,P,S)
 
     print(f"Simulated cost: {cost / epochs}")
-    print(f"Expected cost: {get_value(machine.lookup[0], np.array([[0.5],[0.5]]), machine.U)}")
+    print(f"Expected cost: {get_value(machine.lookup[0], np.array([[1.0],[0.0]]), machine.U)}")
 
     # state_space = np.linspace(0,1,11)
     # plt.plot(state_space,machine.Jk[:,])
