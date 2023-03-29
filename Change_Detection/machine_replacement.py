@@ -19,7 +19,7 @@ class Machine():
         self.S = S                                      # number of states
         self.B = B                                      # observation probability matrix
         self.policy = np.zeros((11,1),dtype=np.int32)   # stationary policy vector
-        self.Vn = np.zeros((11,1))    # expected cumulative cost
+        self.Vn = np.zeros((11,1))                      # expected cumulative cost
 
     def train(self):
         while True:
@@ -53,7 +53,7 @@ class Machine():
             for i in range(11):
                 max_diff = max(max_diff,abs(V_next[i][0] - self.Vn[i][0]))
             
-            if max_diff <= 0.01:
+            if max_diff <= 0.00001:
                 break
                 
             
