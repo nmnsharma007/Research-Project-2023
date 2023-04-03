@@ -1,6 +1,7 @@
 import numpy as np
 from machine_replacement import Machine
 import matplotlib.pyplot as plt
+import scipy.stats as st
 
 def sigma(pi,B,y,P,S,u=1):
     unit = np.ones((S,1))
@@ -30,6 +31,7 @@ machine = Machine(P,C,A,S,B)
 cost = 0.0
 machine.train()
 
+values = []
 for e in range(epochs):
     np.random.seed(e)
     real_cur_state = 1 # start from unchanged state
@@ -69,11 +71,14 @@ for e in range(epochs):
         current_time += 1
         
     cost += d * max(tau - tau_0,0) + 1.0 * (tau < tau_0)
+    values.append(d * max(tau - tau_0,0) + 1.0 * (tau < tau_0))
 
 print(machine.policy)
 print(machine.Vn)
 print(f"Simulated cost: {cost / epochs}")
 print(f"Actual Value function: {machine.Vn[10]}")
+
+print(st.norm.interval(confidence=0.95, loc=np.mean(values), scale=st.sem(values)))
 
 state_space = np.linspace(0,1,11)
 # plt.plot(state_space,machine.Vn[:,])
