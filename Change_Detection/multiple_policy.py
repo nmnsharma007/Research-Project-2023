@@ -18,13 +18,13 @@ class ValueMachine():
         self.A = A                                      # number of actions
         self.S = S                                      # number of states
         self.B = B                                      # observation probability matrix
-        self.policy = np.zeros((11,1),dtype=np.int32)   # stationary policy vector
-        self.Vn = np.zeros((11,1))                      # expected cumulative cost
+        self.policy = np.zeros((101,1),dtype=np.int32)   # stationary policy vector
+        self.Vn = np.zeros((101,1))                      # expected cumulative cost
         self.mu = mu                                    # policy
 
     def train(self):
         while True:
-            V_next = np.zeros((11,1))
+            V_next = np.zeros((101,1))
             # 11 belief states are possible : 0.0, 0.1, 0.2, ... 0.9, 1.0
             for j in range(11):
                 # for belief_state = j*0.1
