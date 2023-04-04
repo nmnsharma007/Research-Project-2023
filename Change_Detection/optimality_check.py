@@ -18,7 +18,7 @@ def T(pi,y,B,P,S,u):
 # action 0 --> stop, action 1 --> continue
 u = 0.6     # probability that changed state (state 0) gives out observation 0 
 v = 0.3     # probability that unchanged state (state 1) gives out observation 0
-theta = 0.5 # probability from unchanged to unchanged state
+theta = 0.6 # probability from unchanged to unchanged state
 B = np.array([[[u,0],[0,v]],[[1-u,0],[0,1-v]]],dtype=np.float32)
 P = np.array([[[1,0],[1 - theta,theta]],[[1,0],[1 - theta,theta]]],dtype=np.float32)
 S = 2
