@@ -3,14 +3,14 @@ from machine_replacement import Machine
 from multiple_policy import ValueMachine
 import matplotlib.pyplot as plt
 
-def sigma(pi,B,y,P,S,u=1):
+def sigma(pi,B,y,P,S,u):
     unit = np.ones((S,1))
     # print(np.matmul(B[y],np.matmul(P[u].T,pi))
     return np.matmul(unit.T,np.matmul(B[y],np.matmul(P[u].T,pi)))[0][0]
 
-def T(pi,y,B,P,S,u=1):
+def T(pi,y,B,P,S,u):
     numerator = np.matmul(B[y],np.matmul(P[u].T,pi))
-    denominator = sigma(pi,B,y,P,S)
+    denominator = sigma(pi,B,y,P,S,u)
     return numerator / denominator
 
 # print(pi.shape)
@@ -18,7 +18,7 @@ def T(pi,y,B,P,S,u=1):
 # action 0 --> stop, action 1 --> continue
 u = 0.6     # probability that changed state (state 0) gives out observation 0 
 v = 0.3     # probability that unchanged state (state 1) gives out observation 0
-theta = 0.9 # probability from unchanged to unchanged state
+theta = 0.6 # probability from unchanged to unchanged state
 B = np.array([[[u,0],[0,v]],[[1-u,0],[0,1-v]]],dtype=np.float32)
 P = np.array([[[1,0],[1 - theta,theta]],[[1,0],[1 - theta,theta]]],dtype=np.float32)
 S = 2
@@ -59,7 +59,7 @@ for mu in mu_values:
                 break
             action = 1 if estimated_cur_state >= mu else 0
             pi = np.array([[1-estimated_cur_state],[estimated_cur_state]]) # current belief
-            cost += np.matmul(machine.C[action].T,pi).item()
+            # cost += np.matmul(machine.C[action].T,pi).item()
             # if change detected
             q = np.random.binomial(1,P[action][real_cur_state][0])
             if q == 1:
@@ -82,11 +82,12 @@ for mu in mu_values:
 
             current_time += 1
             
-        # cost += d * max(tau - tau_0,0) + 1.0 * max(tau_0-tau,0)
+        cost += d * max(tau - tau_0,0) + 1.0 * (tau < tau_0)
     # print(f"Cost: {cost / epochs}")
     simulated_costs.append(cost / epochs)
 
-# print(simulated_costs)
+print(f"Simulated cost: {simulated_costs}")
+print(f"Analytical cost: {analytical_costs}")
 plt.plot(mu_values,simulated_costs, label='simulated')
 plt.plot(mu_values,analytical_costs, label='analytical')
 plt.legend()
