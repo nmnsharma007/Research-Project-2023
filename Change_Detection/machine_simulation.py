@@ -29,6 +29,7 @@ C = np.array([[[0],[1]],[[d],[0]]]) # cost matrix for action 0 and action 1 resp
 
 machine = Machine(P,C,A,S,B)
 cost = 0.0
+cpi_cost = 0.0
 machine.train()
 
 values = []
@@ -43,10 +44,11 @@ for e in range(epochs):
     while True:
 
         if tau != -1 and tau_0 != -1:
-            print(f"TAU: {tau} and TAU_0: {tau_0}")
+            # print(f"TAU: {tau} and TAU_0: {tau_0}")
             break
         action = machine.policy[int(estimated_cur_state*10)][0]
         pi = np.array([[1-estimated_cur_state],[estimated_cur_state]]) # current belief
+        cpi_cost += np.matmul(machine.C[action].T,pi).item()
         
         # if change detected
         q = np.random.binomial(1,P[action][real_cur_state][0])
@@ -77,6 +79,7 @@ print(machine.policy)
 print(machine.Vn)
 print(f"Simulated cost: {cost / epochs}")
 print(f"Actual Value function: {machine.Vn[10]}")
+print(cpi_cost/epochs)
 
 print(st.norm.interval(confidence=0.95, loc=np.mean(values), scale=st.sem(values)))
 
