@@ -34,7 +34,8 @@ class Machine():
                 sigma0 = sigma(curr_state, 0, self.B, self.P, self.S)
                 y10 = round(T(curr_state, 1, self.B, self.P, self.S)[1][0], 1)   # observation 1
                 sigma1 = sigma(curr_state, 1, self.B, self.P, self.S)
-                V_next_0 = np.matmul(self.C[0].T, curr_state).item() + self.Vn[int(y00*10)]*sigma0 + self.Vn[int(y10*10)]*sigma1
+                # V_next_0 = np.matmul(self.C[0].T, curr_state).item() + self.Vn[int(y00*10)]*sigma0 + self.Vn[int(y10*10)]*sigma1
+                V_next_0 = np.matmul(self.C[0].T, curr_state).item()
                 
                 # for action 1
                 y10 = round(T(curr_state, 0, self.B, self.P, self.S)[1][0], 1)   # observation 0
