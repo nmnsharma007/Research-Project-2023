@@ -32,12 +32,14 @@ class ValueMachine():
 
                 action = 1 if j >= int(self.mu*10) else 0
 
-                # for action 0
                 y00 = round(T(curr_state, 0, self.B, self.P, self.S, action)[1][0], 1)   # observation 0
                 sigma0 = sigma(curr_state, 0, self.B, self.P, self.S,action)
                 y10 = round(T(curr_state, 1, self.B, self.P, self.S, action)[1][0], 1)   # observation 1
                 sigma1 = sigma(curr_state, 1, self.B, self.P, self.S,action)
                 V_next_0 = np.matmul(self.C[action].T, curr_state).item() + self.Vn[int(y00*10)]*sigma0 + self.Vn[int(y10*10)]*sigma1
+
+                if action == 0:
+                    V_next_0 = np.matmul(self.C[action].T, curr_state).item()
 
                 V_next[j][0] = V_next_0
 

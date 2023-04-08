@@ -97,5 +97,8 @@ for theta in theta_values:
 
 plt.plot(theta_values,simulated_costs, label='simulated')
 plt.plot(theta_values,actual_values, label='actual')
+plt.ylim((0,10))
+plt.xlabel('Prob from unchanged state to unchanged state')
+plt.ylabel('cost')
 plt.legend()
 plt.show()
