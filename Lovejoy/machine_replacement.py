@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class Machine():
+class Machine(): 
     def __init__(self,P,C,U,S,B,N,Y,R):
         self.P = P                                      # probability transition matrix
         self.C = C                                      # cost matrix
