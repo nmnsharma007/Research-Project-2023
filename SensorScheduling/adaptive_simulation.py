@@ -12,9 +12,9 @@ d = 0.0235
 m = np.array([[[0],[0.1647]],[[0],[0.1647]],[[0],[0.1647]],[[0],[0.1647]],[[0],[0.1647]]])
 c = np.zeros((U,2,1)) # cost matrix for action 0 and action 1 respectively
 D = np.array([0,1,3,5,10])
-for u in range(U):
-    c[u] = np.array([[0],[1]])
-
+for u in range(1,U):
+    c[u] = np.array([[d],[0]])
+c[0] = np.array([[0],[1]])
 machine = Machine(A,U,X,f,m,c,D,Y)
 machine.train()
 

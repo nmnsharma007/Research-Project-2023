@@ -53,7 +53,7 @@ class Machine():
                     if a == 0 or j == 0:
                         vnext.append(np.matmul(self.c[a].T, curr_state).item())
                     else:
-                        print(f"State: {j}")
+                        # print(f"State: {j}")
                         ysigma = 0
                         for y in range(self.Y):
                             v = round(T(curr_state, y, self.f, self.A, self.S, self.D, a)[1][0], 3)   # observation y
@@ -71,6 +71,7 @@ class Machine():
                 # V_next_1 = np.matmul(self.C[1].T, curr_state).item() + self.Vn[int(y10*10)]*sigma0 + self.Vn[int(y11*10)]*sigma1
 
                 V_next[j][0] = min(vnext)
+                print(vnext)
                 self.policy[j][0] = np.argmin(vnext)
                 # if V_next_0 < V_next_1:
                 #     self.policy[j][0] = 0
