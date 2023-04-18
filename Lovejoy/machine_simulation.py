@@ -36,7 +36,7 @@ def get_value(lookup, state, U):
 
 p = 0.3     # probability that good state produces good quality product
 q = 0.6     # probability that bad state produces bad quality product
-theta = 0.4 # probability from good to bad
+theta = 0.6 # probability from good to bad
 
 B = np.array([[[1-q,0],[0,p]],[[q,0],[0,1-p]]],dtype=np.float32)
 P = np.array([[[0,1],[0,1]],[[1,0],[theta,1-theta]]],dtype=np.float32)
@@ -47,7 +47,7 @@ c = 3
 R = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 replace_cost = 6
 Y = 2 
-epochs = 10
+epochs = 1000
 C = np.array([[[replace_cost],[replace_cost]],[[c],[0]]]) # cost matrix for action 0 and action 1 respectively
 
 # 0 -> bad state, 1 -> good state
@@ -61,16 +61,18 @@ machine.train()
 
 # print(machine.lookup[0])
 plt.xlim(0,1)
-# plt.ylim(0,20)
+# plt.ylim(8,20)
 colors=['red', 'blue']
 for (i, a) in enumerate(machine.lookup[0]):
     for j in range(len(a)):
-        plt.axline((0,a[j][1][0]),slope=a[j][0][0] - a[j][1][0], label='action '+str(i), color=colors[i])
+        plt.axline((0,a[j][1][0]),slope=a[j][0][0] - a[j][1][0], label='action '+str(i+1), color=colors[i])
 
 handles, labels = plt.gca().get_legend_handles_labels()
 temp = {k:v for k,v in zip(labels, handles)}
 
 plt.legend(temp.values(), temp.keys(), loc='best')
+plt.xlabel('belief state')
+plt.ylabel('value')
 # plt.legend()
 plt.show()
 

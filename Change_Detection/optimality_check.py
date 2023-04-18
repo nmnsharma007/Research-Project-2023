@@ -18,7 +18,7 @@ def T(pi,y,B,P,S,u):
 # action 0 --> stop, action 1 --> continue
 u = 0.6     # probability that changed state (state 0) gives out observation 0 
 v = 0.3     # probability that unchanged state (state 1) gives out observation 0
-theta = 0.8 # probability from unchanged to unchanged state
+theta = 0.6 # probability from unchanged to unchanged state
 B = np.array([[[u,0],[0,v]],[[1-u,0],[0,1-v]]],dtype=np.float32)
 P = np.array([[[1,0],[1 - theta,theta]],[[1,0],[1 - theta,theta]]],dtype=np.float32)
 S = 2
@@ -90,5 +90,8 @@ print(f"Simulated cost: {simulated_costs}")
 print(f"Analytical cost: {analytical_costs}")
 plt.plot(mu_values,simulated_costs, label='simulated')
 plt.plot(mu_values,analytical_costs, label='analytical')
+plt.ylim((0, 18))
+plt.xlabel('threshold policy')
+plt.ylabel('cost')
 plt.legend()
 plt.show()
