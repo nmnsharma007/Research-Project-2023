@@ -23,7 +23,7 @@ N = 4
 A = 2
 c = 4
 R = 3
-epochs = 1000
+epochs = 50
 C = np.array([[[R],[R]],[[c],[0]]]) # cost matrix for action 0 and action 1 respectively
 # 0 -> bad state, 1 -> good state
 # 0 -> replace the machine, 1 -> keep the machine
@@ -36,13 +36,15 @@ machine.train()
 print(machine.lookup)
 for e in range(epochs):
     np.random.seed(e)
-    real_cur_state = 0
-    pi = np.array([[1.0],[0.0]])
+    real_cur_state = 1
+    pi = np.array([[0.0],[1.0]])
     estimated_cur_state = pi[0][0]
     for i in range(machine.N):
         action = machine.lookup[int(estimated_cur_state*10)][i]
         # print(action)
-        cost += machine.C[action][real_cur_state][0]
+        # cost += machine.C[action][real_cur_state][0]
+        current_belief = np.array([[estimated_cur_state],[1.0-estimated_cur_state]])
+        cost += np.matmul(machine.C[action].T,current_belief).item()
         # print(f"Current estimated state: {estimated_cur_state}")
         # if replacement
         if action == 0:
@@ -67,7 +69,7 @@ for e in range(epochs):
         # print(T(pi,product_quality,B,P,S).shape)
 
 print(f"Simulated cost: {cost / epochs}")
-print(f"Actual Value function: {machine.Jk[1]}")
+print(f"Actual Value function: {machine.Jk}")
 
 state_space = np.linspace(0,1,11)
 plt.plot(state_space,machine.Jk[:,])

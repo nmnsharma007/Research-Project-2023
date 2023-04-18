@@ -7,16 +7,16 @@ from machine_replacement import Machine
 import matplotlib.pyplot as plt
 
 
-A = 2   # action 0(keep) and action 1(replace)
-S = 2   # state 0(operational) and state 1(faulty)
+A = 2   # action 1(keep) and action 0(replace)
+S = 2   # state 1(operational) and state 0(faulty)
 N = 4
 
 p = 0.1 # probability that machine will go to faulty state
 c = 4
 R = 3
 
-C = np.array([[[0],[c]],[[R],[R]]]) # cost matrix for action 0 and action 1 respectively
-P = [[[1-p, p], [0, 1]], [[1, 0], [1, 0]]] # transition probability matrix for each action
+C = np.array([[[R],[R]],[[c],[0]]]) # cost matrix for action 0 and action 1 respectively
+P = [[[0, 1], [0, 1]], [[1,0], [p, 1-p]]] # transition probability matrix for each action
 
 # Initializing the machine with above parameters
 machine = Machine(P, C, A, S, N)

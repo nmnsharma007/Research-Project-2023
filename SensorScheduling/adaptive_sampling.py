@@ -3,13 +3,13 @@ import numpy as np
 
 def sigma(pi,y,f,A,S,D,u=1):
     unit = np.ones((S,1))
-    print(np.linalg.matrix_power(A.T,D[u]))
+    # print(np.matmul(f[y],np.matmul(np.linalg.matrix_power(A.T,D[u]),pi)),f"action: {u}")
     return np.matmul(unit.T,np.matmul(f[y],np.matmul(np.linalg.matrix_power(A.T,D[u]),pi)))[0][0]
 
 def T(pi,y,f,A,S,D,u=1):
     numerator = np.matmul(f[y],np.matmul(np.linalg.matrix_power(A.T,D[u]),pi))
     denominator = sigma(pi,y,f,A,S,D,u)
-    print(numerator, denominator)
+    # print(numerator, denominator)
     return numerator / denominator
 
 def C(A,u,c,m,D):
@@ -45,19 +45,20 @@ class Machine():
                 # for action 0
                 vnext = []
                 for a in range(self.U):
-                    ysigma = 0
-                    for y in range(self.Y):
-                        v = round(T(curr_state, y, self.f, self.A, self.S, self.D, a)[1][0], 3)   # observation 0
-                        sig = sigma(curr_state, y, self.f, self.A, self.S, self.D, a)
-                        ysigma += self.Vn[int(v*1000)].item()*sig
 
                     # y10 = round(T(curr_state, 1, self.f, self.A, self.S)[1][0], 3)   # observation 1
                     # sigma1 = sigma(curr_state, 1, self.f, self.A, self.S)
                     # y20 = round(T(curr_state, 2, self.f, self.A, self.S)[1][0], 3)   # observation 1
                     # sigma2 = sigma(curr_state, 2, self.f, self.A, self.S)
-                    if a == 0:
+                    if a == 0 or j == 0:
                         vnext.append(np.matmul(self.c[a].T, curr_state).item())
                     else:
+                        print(f"State: {j}")
+                        ysigma = 0
+                        for y in range(self.Y):
+                            v = round(T(curr_state, y, self.f, self.A, self.S, self.D, a)[1][0], 3)   # observation y
+                            sig = sigma(curr_state, y, self.f, self.A, self.S, self.D, a)
+                            ysigma += self.Vn[int(v*1000)].item()*sig
                         vnext.append(np.matmul(C(self.A,a,self.c,self.m,self.D).T, curr_state).item() + ysigma)
                     
                     # V_next_0 = np.matmul(self.C[0].T, curr_state).item()

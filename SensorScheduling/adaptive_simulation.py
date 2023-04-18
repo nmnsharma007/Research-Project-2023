@@ -1,17 +1,7 @@
 import numpy as np
 from adaptive_sampling import Machine
 import matplotlib.pyplot as plt
-import scipy.stats as st
 
-def sigma(pi,B,y,P,S,u=1):
-    unit = np.ones((S,1))
-    # print(np.matmul(B[y],np.matmul(P[u].T,pi))
-    return np.matmul(unit.T,np.matmul(B[y],np.matmul(P[u].T,pi)))[0][0]
-
-def T(pi,y,B,P,S,u=1):
-    numerator = np.matmul(B[y],np.matmul(P[u].T,pi))
-    denominator = sigma(pi,B,y,P,S)
-    return numerator / denominator
 
 f = np.array([[[0.3,0],[0,0]],[[0.7,0],[0,0.2]],[[0.0,0],[0,0.8]]],dtype=np.float32)
 A = np.array([[1,0],[0.1,0.9]])
