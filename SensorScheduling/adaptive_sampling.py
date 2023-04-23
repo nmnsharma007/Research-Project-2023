@@ -40,7 +40,7 @@ class Machine():
             # 11 belief states are possible : 0.0, 0.1, 0.2, ... 0.9, 1.0
             for j in range(1001):
                 # for belief_state = j*0.1
-                curr_state = np.array([[1-j*0.001],[j*0.001]])
+                curr_state = np.array([[j*0.001],[1-j*0.001]])
 
                 # for action 0
                 vnext = []
@@ -50,13 +50,13 @@ class Machine():
                     # sigma1 = sigma(curr_state, 1, self.f, self.A, self.S)
                     # y20 = round(T(curr_state, 2, self.f, self.A, self.S)[1][0], 3)   # observation 1
                     # sigma2 = sigma(curr_state, 2, self.f, self.A, self.S)
-                    if a == 0 or j == 0:
+                    if a == 0 or j == 1000:
                         vnext.append(np.matmul(self.c[a].T, curr_state).item())
                     else:
                         # print(f"State: {j}")
                         ysigma = 0
                         for y in range(self.Y):
-                            v = round(T(curr_state, y, self.f, self.A, self.S, self.D, a)[1][0], 3)   # observation y
+                            v = round(T(curr_state, y, self.f, self.A, self.S, self.D, a)[0][0], 3)   # observation y
                             sig = sigma(curr_state, y, self.f, self.A, self.S, self.D, a)
                             ysigma += self.Vn[int(v*1000)].item()*sig
                         vnext.append(np.matmul(C(self.A,a,self.c,self.m,self.D).T, curr_state).item() + ysigma)
